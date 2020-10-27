@@ -67,3 +67,4 @@ int main()
 - naprogramujte MCU tak, aby ste prikazmi prijatými cez USART vedeli ovladat LED
 - ak MCU prijme cez USART znak 'ledON' - LED sa vypne
 - ak MCU prijme cez USART znak 'ledOFF' - LED sa zapne
+- s periodou 1s posielajte cez USART aktualny stav LED
