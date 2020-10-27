@@ -65,5 +65,5 @@ int main()
 
 # Zadanie
 - naprogramujte MCU tak, aby ste prikazmi prijatými cez USART vedeli ovladat LED
-- ak MCU prijme cez USART znak 'f' - LED sa vypne
-- ak MCU prijme cez USART znak 'n' - LED sa zapne
+- ak MCU prijme cez USART znak 'ledON' - LED sa vypne
+- ak MCU prijme cez USART znak 'ledOFF' - LED sa zapne
