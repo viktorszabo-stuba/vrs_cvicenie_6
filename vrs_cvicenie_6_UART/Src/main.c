@@ -100,13 +100,13 @@ void process_serial_data(uint8_t ch)
 
 		if(count >= 3)
 		{
-			if((LL_GPIO_ReadInputPort(GPIOB) & (1 << 3)) >> 3)
+			if((LL_GPIO_ReadInputPort(GPIOB) & (1 << 13)) >> 13)
 			{
-				LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+				LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_13);
 			}
 			else
 			{
-				LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_3);
+				LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13);
 			}
 
 			count = 0;
