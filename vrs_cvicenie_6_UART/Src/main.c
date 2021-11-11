@@ -27,6 +27,7 @@
 void SystemClock_Config(void);
 
 void process_serial_data(uint8_t ch);
+uint8_t led = 0;
 
 int main(void)
 {
@@ -43,14 +44,26 @@ int main(void)
 
   USART2_RegisterCallback(process_serial_data);
 
-  char tx_data = 'a';
+
 
   while (1)
   {
-	  LL_USART_TransmitData8(USART2, tx_data++);
-	  tx_data == ('z' + 1) ? tx_data = 'a' : tx_data;
-
-	  LL_mDelay(50);
+	  if(led==0){
+		  char message[]="LED OFF";
+		  for(uint8_t i=0; i<strlen(message);i++){
+			  LL_USART_TransmitData8(USART2, message[i]);
+			  LL_mDelay(1);
+		  }
+		  LL_mDelay(5000);
+	  }
+	  else if(led==1){
+		  char message[]="LED ON";
+		  for(uint8_t i=0; i<strlen(message);i++){
+			  LL_USART_TransmitData8(USART2, message[i]);
+			  LL_mDelay(1);
+		  }
+		  LL_mDelay(5000);
+	  }
   }
 }
 
@@ -93,26 +106,28 @@ void SystemClock_Config(void)
 void process_serial_data(uint8_t ch)
 {
 	static uint8_t count = 0;
-
-	if(ch == 'a')
-	{
-		count++;
-
-		if(count >= 3)
-		{
-			if((LL_GPIO_ReadInputPort(GPIOB) & (1 << 3)) >> 3)
-			{
-				LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
-			}
-			else
-			{
-				LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_3);
-			}
-
-			count = 0;
-			return;
-		}
+	char controlon[] = "ledON";
+	char controloff[] = "ledOFF";
+	if (ch == 13){
+		return;
 	}
+	if (ch == controlon[count] || ch == controloff[count]){
+		count++;
+	}
+	else{
+		count=0;
+	}
+	if (count==5 && ch=='N'){
+		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_3);
+		count=0;
+		led=1;
+	}
+	else if(count==6){
+		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+		count=0;
+		led=0;
+	}
+	return;
 }
 
 
